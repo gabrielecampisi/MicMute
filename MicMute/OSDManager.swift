@@ -10,9 +10,8 @@ class OSDManager {
         timer?.invalidate()
         window?.orderOut(nil)
 
-        // Dimensioni: stile pillola moderna
         let panelWidth: CGFloat = 240
-        let panelHeight: CGFloat = 70
+        let panelHeight: CGFloat = 64
         
         let panel = NSPanel(
             contentRect: NSRect(x: 0, y: 0, width: panelWidth, height: panelHeight),
@@ -25,14 +24,16 @@ class OSDManager {
         panel.backgroundColor = .clear
         panel.isOpaque = false
         panel.hasShadow = true
+        panel.invalidateShadow()
 
+        // --- CONTENITORE NERO (Sostituisce il Blur) ---
         let container = NSView(frame: panel.contentView!.bounds)
         container.wantsLayer = true
         container.layer?.backgroundColor = NSColor.black.withAlphaComponent(0.85).cgColor
-        container.layer?.cornerRadius = panelHeight / 2 // Effetto pillola
+        container.layer?.cornerRadius = panelHeight / 2
         container.layer?.masksToBounds = true
-
-        // 1. Configurazione Icona
+        
+        // --- ICONA ---
         let imageView = NSImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         if let image = NSImage(named: imageName) {
@@ -43,57 +44,53 @@ class OSDManager {
             }
         }
         
-        // Vincoli dimensionali icona
-        imageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 28).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 28).isActive = true
 
-        // 2. Configurazione Testo
+        // --- TESTO ---
         let textField = NSTextField(labelWithString: message)
-        textField.font = NSFont.systemFont(ofSize: 18, weight: .bold)
+        textField.font = NSFont.systemFont(ofSize: 17, weight: .bold)
         textField.textColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.isEditable = false
-        textField.isSelectable = false
-        textField.drawsBackground = false
-        textField.isBordered = false
 
-        // 3. StackView per allineamento perfetto
+        // --- ALLINEAMENTO ---
         let stackView = NSStackView(views: [imageView, textField])
         stackView.orientation = .horizontal
         stackView.spacing = 12
-        stackView.alignment = .centerY // Questo garantisce l'allineamento verticale
+        stackView.alignment = .centerY
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         container.addSubview(stackView)
         panel.contentView = container
 
-        // Centratura della StackView nel pannello
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
         ])
 
-        // Posizionamento in fondo allo schermo
+        // --- POSIZIONAMENTO E ANIMAZIONE SLIDE-IN ---
         if let screen = NSScreen.main {
             let screenRect = screen.visibleFrame
             let x = screenRect.midX - (panelWidth / 2)
             let y = screenRect.minY + 60
-            panel.setFrameOrigin(NSPoint(x: x, y: y))
-        }
-
-        panel.makeKeyAndOrderFront(nil)
-        panel.alphaValue = 0
-        
-        NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.15
-            panel.animator().alphaValue = 1.0
+            
+            panel.setFrameOrigin(NSPoint(x: x, y: y - 15))
+            panel.alphaValue = 0
+            panel.makeKeyAndOrderFront(nil)
+            
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.2
+                context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+                panel.animator().alphaValue = 1.0
+                panel.animator().setFrameOrigin(NSPoint(x: x, y: y))
+            }
         }
 
         self.window = panel
 
-        timer = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 1.3, repeats: false) { [weak self] _ in
             NSAnimationContext.runAnimationGroup({ context in
-                context.duration = 0.4
+                context.duration = 0.3
                 self?.window?.animator().alphaValue = 0
             }, completionHandler: {
                 self?.window?.orderOut(nil)
@@ -102,4 +99,3 @@ class OSDManager {
         }
     }
 }
-
