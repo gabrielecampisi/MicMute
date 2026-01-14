@@ -1,6 +1,6 @@
 # MicMute 🎙️
 
-**MicMute** è un'utility leggera e moderna per macOS progettata per gestire il silenziamento del microfono direttamente dalla barra dei menu o tramite scorciatoie da tastiera globali.
+**MicMute** è un'utility leggera e moderna per macOS progettata da **Gabriele Campisi** per gestire il silenziamento del microfono direttamente dalla barra dei menu o tramite scorciatoie da tastiera globali.
 
 L'applicazione è scritta in Swift e utilizza le API di basso livello di Core Audio per garantire la massima compatibilità con tutti i dispositivi di input (USB, Bluetooth, integrati).
 
@@ -18,7 +18,7 @@ L'applicazione è scritta in Swift e utilizza le API di basso livello di Core Au
 ### Prerequisiti
 - macOS 13.0 o superiore.
 - Xcode 15.0+ (per la compilazione).
-- [HotKey library](https://github.com/soffes/HotKey) (dipendenza inclusa nel progetto).
+- [HotKey library](https://github.com/soffes/HotKey) (dipendenza necessaria).
 
 ### Compilazione manuale
 1. Clona il repository.
@@ -26,21 +26,20 @@ L'applicazione è scritta in Swift e utilizza le API di basso livello di Core Au
 3. Assicurati che le icone `mic_on` e `mic_off` siano presenti in `Assets.xcassets`.
 4. Seleziona il target **MicMute** e premi `Cmd + R` per compilare ed eseguire.
 
-> **Nota:** Al primo avvio, macOS richiederà l'autorizzazione per accedere al microfono. Questo è necessario affinché l'app possa leggere e modificare lo stato di silenziamento hardware.
-
 ## 🛠 Architettura Tecnica
 
-L'app si basa su un'architettura reattiva agli eventi hardware:
-- **Core Audio Listeners**: Invece di interrogare costantemente il sistema (polling), l'app registra dei "listener" che vengono attivati dal kernel solo quando lo stato del mute cambia effettivamente.
-- **SMAppService**: Utilizza il framework moderno di Apple per la persistenza al login, evitando script di background obsoleti.
-- **Event Interception**: Gestisce in modo differenziato i click del mouse tramite la sottoclasse di `NSStatusItem`.
+Sviluppata da Gabriele Campisi, l'app si basa su un'architettura reattiva agli eventi hardware:
+- **Core Audio Listeners**: Invece di interrogare costantemente il sistema, l'app registra dei listener che vengono attivati dal kernel solo quando lo stato cambia.
+- **SMAppService**: Utilizza il framework moderno di Apple per la persistenza al login.
+- **Event Interception**: Gestione differenziata dei click del mouse (Left/Right click) per un'esperienza utente ottimizzata.
 
 
 
 ## 📜 Licenza
 
+Copyright (c) 2025 Gabriele Campisi.
 Questo progetto è distribuito sotto la licenza **GNU GPL v3**. Consulta il file `LICENSE` per maggiori dettagli.
 
 ---
-**Credits:** Sviluppato con ❤️ per la community macOS. 
+**Credits:** Sviluppato con ❤️ da **Gabriele Campisi**. 
 Se questo strumento ti è utile, considera una piccola donazione tramite il link nel menu dell'app.
