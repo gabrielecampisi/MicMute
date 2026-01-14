@@ -1,45 +1,47 @@
 # MicMute 🎙️
 
-**MicMute** è un'utility leggera e moderna per macOS progettata da **Gabriele Campisi** per gestire il silenziamento del microfono direttamente dalla barra dei menu o tramite scorciatoie da tastiera globali.
+**MicMute** is a lightweight and modern macOS utility designed by **Gabriele Campisi** to manage microphone muting directly from the menu bar or via global keyboard shortcuts.
 
-L'applicazione è scritta in Swift e utilizza le API di basso livello di Core Audio per garantire la massima compatibilità con tutti i dispositivi di input (USB, Bluetooth, integrati).
+The application is written in Swift and leverages low-level Core Audio APIs to ensure maximum compatibility with all input devices, including USB, Bluetooth, and built-in microphones.
 
-## ✨ Caratteristiche
+## ✨ Features
 
-- **Toggle Rapido**: Clicca con il tasto sinistro sull'icona della barra dei menu per mutare/smutare istantaneamente.
-- **Icona Intelligente**: L'icona diventa **rossa** quando sei mutato e si adatta al tema di sistema (bianco/nero) quando il microfono è attivo.
-- **Scorciatoia Globale**: Usa `Cmd + Shift + M` per mutare il microfono da qualsiasi applicazione.
-- **Feedback Visivo (OSD)**: Visualizza un indicatore a centro schermo (On-Screen Display) ogni volta che lo stato cambia.
-- **Gestione Multi-Dispositivo**: Seleziona facilmente quale microfono controllare dal menu contestuale (Click destro).
-- **Avvio al Login**: Opzione integrata per avviare l'app automaticamente all'accensione del Mac.
+- **Quick Toggle**: Left-click the menu bar icon to mute or unmute instantly.
+- **Smart Iconography**: The icon turns **red** when muted and adapts to the system theme (Light/Dark mode) when the microphone is active.
+- **Global Shortcut**: Use `Cmd + Shift + M` to toggle mute from any application.
+- **Visual Feedback (OSD)**: Displays a native-looking On-Screen Display at the center of the screen whenever the status changes.
+- **Multi-Device Management**: Easily select which microphone to control from the context menu (Right-click).
+- **Launch at Login**: Built-in option to automatically start the app when you turn on your Mac.
 
-## 🚀 Installazione & Compilazione
+## 🚀 Installation & Compilation
 
-### Prerequisiti
-- macOS 13.0 o superiore.
-- Xcode 15.0+ (per la compilazione).
-- [HotKey library](https://github.com/soffes/HotKey) (dipendenza necessaria).
+### Prerequisites
+- macOS 13.0 or higher.
+- Xcode 15.0+ (for compilation).
+- [HotKey library](https://github.com/soffes/HotKey) (required dependency).
 
-### Compilazione manuale
-1. Clona il repository.
-2. Apri `MicMute.xcodeproj` in Xcode.
-3. Assicurati che le icone `mic_on` e `mic_off` siano presenti in `Assets.xcassets`.
-4. Seleziona il target **MicMute** e premi `Cmd + R` per compilare ed eseguire.
-
-## 🛠 Architettura Tecnica
-
-Sviluppata da Gabriele Campisi, l'app si basa su un'architettura reattiva agli eventi hardware:
-- **Core Audio Listeners**: Invece di interrogare costantemente il sistema, l'app registra dei listener che vengono attivati dal kernel solo quando lo stato cambia.
-- **SMAppService**: Utilizza il framework moderno di Apple per la persistenza al login.
-- **Event Interception**: Gestione differenziata dei click del mouse (Left/Right click) per un'esperienza utente ottimizzata.
+### Manual Build
+1. Clone the repository.
+2. Open `MicMute.xcodeproj` in Xcode.
+3. Ensure the `mic_on` and `mic_off` icons are present in `Assets.xcassets`.
+4. Select the **MicMute** target and press `Cmd + R` to build and run.
 
 
 
-## 📜 Licenza
+## 🛠 Technical Architecture
 
-Copyright (c) 2025 Gabriele Campisi.
-Questo progetto è distribuito sotto la licenza **GNU GPL v3**. Consulta il file `LICENSE` per maggiori dettagli.
+Developed by Gabriele Campisi, the app is built on a hardware-reactive architecture:
+- **Core Audio Listeners**: Instead of constant polling, the app registers listeners that are triggered by the kernel only when the hardware status actually changes. This minimizes CPU usage.
+- **SMAppService**: Utilizes Apple's modern framework for login persistence, avoiding legacy background scripts.
+- **Event Interception**: Implements a custom `NSStatusItem` interaction model to distinguish between Left-click (action) and Right-click (menu).
+
+
+
+## 📜 License
+
+Copyright (c) 2026 Gabriele Campisi.
+This project is licensed under the **GNU GPL v3**. See the `LICENSE` file for more details.
 
 ---
-**Credits:** Sviluppato con ❤️ da **Gabriele Campisi**. 
-Se questo strumento ti è utile, considera una piccola donazione tramite il link nel menu dell'app.
+**Credits:** Developed with ❤️ by **Gabriele Campisi**.
+If you find this tool useful, please consider a small donation via the link in the app menu.
